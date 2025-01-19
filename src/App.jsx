@@ -92,7 +92,7 @@ function App() {
           path="/topic/:categoryName"
           element={
             <Template>
-              <ChallengeList />
+              <ChallengeList/>
             </Template>
           }
         />

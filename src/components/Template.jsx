@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { API_GET_NOTIFICATION, BASE_URL } from "../constants/ApiConstant";
 import { ACCESS_TOKEN_KEY } from "../constants/LocalStorageKey";
 import ApiHelper from "../utils/ApiHelper";
+import CornerBorderBox from "../components/ConnerBorderBox";
+import { Link, useParams } from "react-router-dom";
 
 const Template = ({ children, title }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,6 +17,7 @@ const Template = ({ children, title }) => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
+  const { categoryName } = useParams();
 
   const navigate = useNavigate();
 
@@ -129,13 +132,13 @@ const Template = ({ children, title }) => {
   ];
 
   return (
-    <div className="bg-secondary min-h-screen flex flex-row font-mono">
+    <div className="bg-secondary min-h-auto flex flex-row flex-wrap over-flow-y font-primary p-5">
       <div className="bg-secondary h-screen flex-shrink-0" style={{ flex: 1 }}>
         <div className="h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center h-16 my-5">
+          <div className="flex items-center justify-center h-16">
             <div className="flex-shrink-0 w-full" onClick={handleLogoClick}>
               <img
-                className="h-20 w-auto"
+                className="h-20 w-auto theme-color-primary"
                 src="/fctf-logo.png"
                 alt="Logo"
                 onError={(e) => {
@@ -145,90 +148,102 @@ const Template = ({ children, title }) => {
               />
             </div>
           </div>
-          <div className="flex flex-col flex-grow bg-gradient-to-b from-primary-low to-orange mb-3">
-            <div
-              className=" shadow-md mt-3 p-3  flex flex-wrap items-center justify-center border-2 border-secondary rounded-lg max-w-7xl mx-auto"
-              style={{ flex: 1 }}
-            >
-              {menuItems.map((item, index) => (
-                <div key={index} className="relative">
-                  <button
-                    onClick={() => {
-                      if (item.onClick) {
-                        item.onClick();
-                      } else {
-                        navigate(item.url);
-                      }
-                    }}
-                    className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-theme-color-gray hover:text-theme-color-primary-dark hover:bg-primary-low transition-all duration-300"
-                  >
-                    <span className="mr-2 text-3xl">{item.icon}</span>
-                  </button>
+          <div
+            className="flex flex-col flex-grow mt-5 flex-shrink-0"
+            style={{ flex: 1 }}
+          >
+            <CornerBorderBox>
+              <div
+                className="relative mt-3 p-3 flex flex-wrap items-center justify-center max-w-7xl mx-auto"
+                style={{ flex: 1 }}
+              >
+                {menuItems.map((item, index) => (
+                  <div key={index} className="relative">
+                    <button
+                      onClick={() => {
+                        if (item.onClick) {
+                          item.onClick();
+                        } else {
+                          navigate(item.url);
+                        }
+                      }}
+                      className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-theme-color-gray hover:text-theme-color-primary-dark hover:bg-primary-low transition-all duration-300"
+                    >
+                      <span className="mr-2 text-3xl">{item.icon}</span>
+                    </button>
 
-                  {item.title === "Notifications" && isNotificationOpen && (
-                    <div className=" right-0 mt-2 w-80 bg-white rounded-md shadow-lg py-1 z-50">
-                      {currentNotifications.length > 0 ? (
-                        currentNotifications.map((notification) => (
-                          <div
-                            key={notification.id}
-                            className={`px-4 py-3 cursor-pointer transition-all duration-300 ${
-                              notification.isRead
-                                ? "bg-gray-100"
-                                : "hover:bg-gray-50"
-                            }`}
-                            onClick={() => markAsRead(notification.id)}
-                          >
-                            <div className="flex justify-between items-start">
-                              <p className="text-sm font-medium text-gray-900">
-                                {notification.title}
+                    {item.title === "Notifications" && isNotificationOpen && (
+                      <div className=" right-0 mt-2 w-80 bg-white rounded-md shadow-lg py-1 z-50">
+                        {currentNotifications.length > 0 ? (
+                          currentNotifications.map((notification) => (
+                            <div
+                              key={notification.id}
+                              className={`px-4 py-3 cursor-pointer transition-all duration-300 ${
+                                notification.isRead
+                                  ? "bg-gray-100"
+                                  : "hover:bg-gray-50"
+                              }`}
+                              onClick={() => markAsRead(notification.id)}
+                            >
+                              <div className="flex justify-between items-start">
+                                <p className="text-sm font-medium text-gray-900">
+                                  {notification.title}
+                                </p>
+                                <span className="text-xs text-gray-500">
+                                  {formatToCustomDateTime(notification.date)}
+                                </span>
+                              </div>
+                              <p className="text-xs text-gray-600 mt-1">
+                                {notification.content}
                               </p>
-                              <span className="text-xs text-gray-500">
-                                {formatToCustomDateTime(notification.date)}
-                              </span>
                             </div>
-                            <p className="text-xs text-gray-600 mt-1">
-                              {notification.content}
-                            </p>
+                          ))
+                        ) : (
+                          <div className="px-4 py-3 text-gray-500 text-sm">
+                            No notifications available
                           </div>
-                        ))
-                      ) : (
-                        <div className="px-4 py-3 text-gray-500 text-sm">
-                          No notifications available
+                        )}
+                        <div className="flex items-center justify-between px-4 py-2 border-t border-gray-200">
+                          <button
+                            onClick={handlePreviousPage}
+                            disabled={currentPage === 1}
+                            className="text-sm text-theme-color-primary hover:text-theme-color-primary-dark disabled:opacity-50"
+                          >
+                            Previous
+                          </button>
+                          <span className="text-xs text-gray-500">
+                            Page {currentPage} of {totalPages}
+                          </span>
+                          <button
+                            onClick={handleNextPage}
+                            disabled={currentPage === totalPages}
+                            className="text-sm text-theme-color-primary hover:text-theme-color-primary-dark disabled:opacity-50"
+                          >
+                            Next
+                          </button>
                         </div>
-                      )}
-                      <div className="flex items-center justify-between px-4 py-2 border-t border-gray-200">
-                        <button
-                          onClick={handlePreviousPage}
-                          disabled={currentPage === 1}
-                          className="text-sm text-theme-color-primary hover:text-theme-color-primary-dark disabled:opacity-50"
-                        >
-                          Previous
-                        </button>
-                        <span className="text-xs text-gray-500">
-                          Page {currentPage} of {totalPages}
-                        </span>
-                        <button
-                          onClick={handleNextPage}
-                          disabled={currentPage === totalPages}
-                          className="text-sm text-theme-color-primary hover:text-theme-color-primary-dark disabled:opacity-50"
-                        >
-                          Next
-                        </button>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
+                ))}
+              </div>
+            </CornerBorderBox>
+
+            <CornerBorderBox>
+              <div
+                className="overflow-y-auto w-full justify-center italic text-white"
+                style={{ height: "60vh" }}
+              >
+                <h1 className="text-2xl italic font-bold text-white text-center mt-4">
+                  Activity
+                </h1>
+                <div className="break-words">
+                  <p className="break-words w-48">
+                    rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+                  </p>
                 </div>
-              ))}
-            </div>
-            <div
-              className="shadow-md mt-5 overflow-y-auto p-3 w-full items-center justify-center border-2 border-secondary rounded-lg"
-              style={{ height: "50vh" }}
-            >
-              <h1 className="text-2xl font-bold text-center mt-4 uppercase">
-                Activity
-              </h1>
-              <div></div>
-            </div>
+              </div>
+            </CornerBorderBox>
 
             <div className="md:hidden">
               <button
@@ -269,13 +284,17 @@ const Template = ({ children, title }) => {
         </div>
       </div>
       <main
-        className="font-mono bg-white rounded-lg m-3 flex-grow"
+        className="font-primary rounded-lg h-screen flex-grow overflow-y-auto"
         style={{ flex: 3 }}
       >
-        <h1 className="text-2xl font-bold text-center mt-4 uppercase text-primary">
-          {title}
-        </h1>
-        <div className="max-w-7xl mx-auto text-primary">{children}</div>
+        <CornerBorderBox>
+          <h1 className="text-2xl font-bold italic flex flex-wrap justify-center items-center h-auto text-center uppercase text-primary">
+            {title || categoryName || "Home Page"}
+          </h1>
+        </CornerBorderBox>
+        <div className="font-primary italic w-full mx-auto text-primary">
+          {children}
+        </div>
       </main>
     </div>
   );

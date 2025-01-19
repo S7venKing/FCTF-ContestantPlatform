@@ -4,18 +4,18 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#ff5500", // thay màu này bằng màu bạn muốn cho primary
-        secondary: "#F9F3F1", // thay màu này bằng màu bạn muốn cho secondary
-        "theme-color-primary": "#ff6700",
+        primary: "#c3ba9a", // thay màu này bằng màu bạn muốn cho primary
+        secondary: "#c3ba9a", // thay màu này bằng màu bạn muốn cho secondary
+        "theme-color-primary": "#c3ba9a",
         "theme-color-primary-dark": "#cc5200",
-        "theme-color-secondary": "#00ba31",
-        "theme-color-secondary-dark": "#009427",
+        "theme-color-secondary": "#fdfefe",
+        "theme-color-secondary-dark": "#fdfefe",
         "theme-color-gray": "#838181",
       },
       fontFamily: {
         sans: ["Inter", "ui-sans-serif", "system-ui"],
         serif: ["Merriweather", "serif"],
-        mono: ["SpaceMono", "monospace"],
+        primary: ["Roboto", "sans-serif", "monospace"],
       },
     },
   },

@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import '@fontsource/roboto/400.css'; /* Normal */
+@import '@fontsource/roboto/500.css'; /* Medium */
+@import '@fontsource/roboto/700.css'; /* Bold */
+@import '@fontsource/roboto/400-italic.css'; /* Normal italic */
+@import '@fontsource/roboto/500-italic.css'; /* Medium italic */
+@import '@fontsource/roboto/700-italic.css'; /* Bold italic */
+
