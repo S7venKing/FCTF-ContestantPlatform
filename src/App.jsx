@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
 import LoginComponent from "./components/auth/LoginComponent";
@@ -18,8 +17,6 @@ import UserProfile from "./components/user/UserProfile";
 import LockScreen from "./template/Forbidden";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <Router>
       <Routes>
@@ -92,7 +89,7 @@ function App() {
           path="/topic/:categoryName"
           element={
             <Template>
-              <ChallengeList/>
+              <ChallengeList />
             </Template>
           }
         />

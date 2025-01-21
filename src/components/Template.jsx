@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaBell, FaFlag, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { FaRankingStar } from "react-icons/fa6";
 import { IoTicket } from "react-icons/io5";
@@ -8,7 +8,7 @@ import { API_GET_NOTIFICATION, BASE_URL } from "../constants/ApiConstant";
 import { ACCESS_TOKEN_KEY } from "../constants/LocalStorageKey";
 import ApiHelper from "../utils/ApiHelper";
 import CornerBorderBox from "../components/ConnerBorderBox";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const Template = ({ children, title }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -132,7 +132,7 @@ const Template = ({ children, title }) => {
   ];
 
   return (
-    <div className="bg-secondary min-h-auto flex flex-row flex-wrap over-flow-y font-primary p-5">
+    <div className="bg-secondary min-h-screen flex flex-row flex-wrap over-flow-y font-primary p-5">
       <div className="bg-secondary h-screen flex-shrink-0" style={{ flex: 1 }}>
         <div className="h-screen max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center h-16">
@@ -292,7 +292,7 @@ const Template = ({ children, title }) => {
             {title || categoryName || "Home Page"}
           </h1>
         </CornerBorderBox>
-        <div className="font-primary italic w-full mx-auto text-primary">
+        <div className="bg-secondary font-primary italic w-full mx-auto text-primary">
           {children}
         </div>
       </main>
